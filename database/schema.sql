@@ -7,7 +7,7 @@ PRAGMA foreign_keys = ON;
 -- USERS TABLE
 -- =========================
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     email TEXT NOT NULL UNIQUE,
@@ -18,12 +18,11 @@ CREATE TABLE users (
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-
 -- =========================
 -- ASSETS TABLE
 -- =========================
 
-CREATE TABLE assets (
+CREATE TABLE IF NOT EXISTS assets (
     asset_id INTEGER PRIMARY KEY AUTOINCREMENT,
     asset_tag TEXT NOT NULL UNIQUE,
     asset_type TEXT NOT NULL,
@@ -35,7 +34,6 @@ CREATE TABLE assets (
     ),
     purchase_date DATE,
     assigned_user_id INTEGER,
-
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (assigned_user_id)
@@ -43,12 +41,11 @@ CREATE TABLE assets (
         ON DELETE SET NULL
 );
 
-
 -- =========================
 -- TICKETS TABLE
 -- =========================
 
-CREATE TABLE tickets (
+CREATE TABLE IF NOT EXISTS tickets (
     ticket_id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     description TEXT NOT NULL,
@@ -87,12 +84,11 @@ CREATE TABLE tickets (
         ON DELETE SET NULL
 );
 
-
 -- =========================
 -- MAINTENANCE TABLE
 -- =========================
 
-CREATE TABLE maintenance (
+CREATE TABLE IF NOT EXISTS maintenance (
     maintenance_id INTEGER PRIMARY KEY AUTOINCREMENT,
 
     asset_id INTEGER NOT NULL,
