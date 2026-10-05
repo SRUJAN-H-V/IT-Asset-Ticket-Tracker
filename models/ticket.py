@@ -51,12 +51,30 @@ class Ticket:
         return ticket_id
 
     @staticmethod
-    def get_all():
+    def get_all(status=None, priority=None, user_id=None): 
 
         connection = get_db_connection()
 
+        query = "SELECT * FROM tickets WHERE 1=1"
+        parameters = []
+
+        if status:
+            query += " AND status = ?"
+            parameters.append(status)
+
+        if priority:
+            query += " AND priority = ?"
+            parameters.append(priority)
+
+        if user_id:
+            query += " AND user_id = ?"
+            parameters.append(user_id)
+
+        query += " ORDER BY ticket_id DESC"
+
         tickets = connection.execute(
-            "SELECT * FROM tickets ORDER BY ticket_id DESC"
+            query,
+            parameters
         ).fetchall()
 
         connection.close()

@@ -28,9 +28,9 @@ def create_asset():
     purchase_date = data.get("purchase_date")
     assigned_user_id = data.get("assigned_user_id")
 
-    if not asset_tag or not asset_type or not brand or not serial_number:
+    if not asset_tag or not asset_type or not brand or not model or not serial_number:
         return jsonify({
-            "error": "Asset tag, asset type, brand and serial number are required"
+            "error": "Asset tag, type, brand, model and serial number are required"
         }), 400
 
     valid_statuses = [
@@ -63,7 +63,7 @@ def create_asset():
             "asset_id": asset_id
         }), 201
 
-    except sqlite3.IntegrityError as error:
+    except sqlite3.IntegrityError:
 
         return jsonify({
             "error": "Asset tag or serial number already exists"
@@ -71,13 +71,33 @@ def create_asset():
 
 
 # =========================
-# GET ALL ASSETS
+# GET ALL ASSETS + SEARCH/FILTER
 # =========================
 
 @asset_routes.route("/assets", methods=["GET"])
 def get_assets():
 
-    assets = Asset.get_all()
+    status = request.args.get("status")
+    asset_type = request.args.get("asset_type")
+    brand = request.args.get("brand")
+
+    valid_statuses = [
+        "Available",
+        "Assigned",
+        "Under Repair",
+        "Retired"
+    ]
+
+    if status and status not in valid_statuses:
+        return jsonify({
+            "error": "Invalid asset status"
+        }), 400
+
+    assets = Asset.get_all(
+        status=status,
+        asset_type=asset_type,
+        brand=brand
+    )
 
     asset_list = []
 
@@ -134,9 +154,9 @@ def update_asset(asset_id):
     purchase_date = data.get("purchase_date")
     assigned_user_id = data.get("assigned_user_id")
 
-    if not asset_tag or not asset_type or not brand or not serial_number:
+    if not asset_tag or not asset_type or not brand or not model or not serial_number:
         return jsonify({
-            "error": "Asset tag, asset type, brand and serial number are required"
+            "error": "Asset tag, type, brand, model and serial number are required"
         }), 400
 
     valid_statuses = [

@@ -82,13 +82,62 @@ def create_ticket():
 
 
 # =========================
-# GET ALL TICKETS
+# GET ALL TICKETS + SEARCH/FILTER
 # =========================
 
 @ticket_routes.route("/tickets", methods=["GET"])
 def get_tickets():
 
-    tickets = Ticket.get_all()
+    status = request.args.get("status")
+    priority = request.args.get("priority")
+    user_id = request.args.get("user_id")
+
+    # Validate user_id
+    if user_id:
+
+        try:
+            user_id = int(user_id)
+
+        except ValueError:
+
+            return jsonify({
+                "error": "user_id must be a number"
+            }), 400
+
+    # Validate status
+    valid_statuses = [
+        "Open",
+        "Assigned",
+        "In Progress",
+        "Resolved",
+        "Closed"
+    ]
+
+    if status and status not in valid_statuses:
+
+        return jsonify({
+            "error": "Invalid ticket status"
+        }), 400
+
+    # Validate priority
+    valid_priorities = [
+        "Low",
+        "Medium",
+        "High",
+        "Critical"
+    ]
+
+    if priority and priority not in valid_priorities:
+
+        return jsonify({
+            "error": "Invalid ticket priority"
+        }), 400
+
+    tickets = Ticket.get_all(
+        status=status,
+        priority=priority,
+        user_id=user_id
+    )
 
     ticket_list = []
 
@@ -108,6 +157,7 @@ def get_ticket(ticket_id):
     ticket = Ticket.get_by_id(ticket_id)
 
     if ticket is None:
+
         return jsonify({
             "error": "Ticket not found"
         }), 404
@@ -125,6 +175,7 @@ def update_ticket(ticket_id):
     data = request.get_json()
 
     if not data:
+
         return jsonify({
             "error": "Request body is required"
         }), 400
@@ -132,6 +183,7 @@ def update_ticket(ticket_id):
     ticket = Ticket.get_by_id(ticket_id)
 
     if ticket is None:
+
         return jsonify({
             "error": "Ticket not found"
         }), 404
@@ -145,6 +197,7 @@ def update_ticket(ticket_id):
     technician_id = data.get("technician_id")
 
     if not title or not description or not user_id:
+
         return jsonify({
             "error": "Title, description and user_id are required"
         }), 400
@@ -157,6 +210,7 @@ def update_ticket(ticket_id):
     ]
 
     if priority not in valid_priorities:
+
         return jsonify({
             "error": "Invalid ticket priority"
         }), 400
@@ -170,6 +224,7 @@ def update_ticket(ticket_id):
     ]
 
     if status not in valid_statuses:
+
         return jsonify({
             "error": "Invalid ticket status"
         }), 400
@@ -208,6 +263,7 @@ def delete_ticket(ticket_id):
     ticket = Ticket.get_by_id(ticket_id)
 
     if ticket is None:
+
         return jsonify({
             "error": "Ticket not found"
         }), 404

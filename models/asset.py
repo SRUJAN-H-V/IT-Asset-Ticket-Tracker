@@ -46,12 +46,30 @@ class Asset:
         return asset_id
 
     @staticmethod
-    def get_all():
+    def get_all(status=None, asset_type=None, brand=None):
 
         connection = get_db_connection()
 
+        query = "SELECT * FROM assets WHERE 1=1"
+        parameters = []
+
+        if status:
+            query += " AND status = ?"
+            parameters.append(status)
+
+        if asset_type:
+            query += " AND asset_type = ?"
+            parameters.append(asset_type)
+
+        if brand:
+            query += " AND brand = ?"
+            parameters.append(brand)
+
+        query += " ORDER BY asset_id DESC"
+
         assets = connection.execute(
-            "SELECT * FROM assets ORDER BY asset_id DESC"
+            query,
+            parameters
         ).fetchall()
 
         connection.close()
