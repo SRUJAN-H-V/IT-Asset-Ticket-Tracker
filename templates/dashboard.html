@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>IT Asset & Ticket Tracker - Dashboard</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div>
+                <h1>IT Asset & Ticket Tracker</h1>
+                <p>Dashboard</p>
+            </div>
+
+            <div class="header-status">
+                System Dashboard
+            </div>
+        </header>
+
+
+        <!-- Asset Section -->
+        <section class="dashboard-section">
+
+            <h2>Asset Overview</h2>
+
+            <div class="card-grid">
+
+                <div class="card">
+                    <h3>Total Assets</h3>
+                    <p id="total-assets">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Assigned Assets</h3>
+                    <p id="assigned-assets">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Available Assets</h3>
+                    <p id="available-assets">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Under Repair</h3>
+                    <p id="repair-assets">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Retired Assets</h3>
+                    <p id="retired-assets">0</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Ticket Section -->
+        <section class="dashboard-section">
+
+            <h2>Ticket Overview</h2>
+
+            <div class="card-grid">
+
+                <div class="card">
+                    <h3>Total Tickets</h3>
+                    <p id="total-tickets">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Open</h3>
+                    <p id="open-tickets">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Assigned</h3>
+                    <p id="assigned-tickets">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>In Progress</h3>
+                    <p id="progress-tickets">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Resolved</h3>
+                    <p id="resolved-tickets">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>Closed</h3>
+                    <p id="closed-tickets">0</p>
+                </div>
+
+                <div class="card">
+                    <h3>High Priority</h3>
+                    <p id="high-priority-tickets">0</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Reports Section -->
+        <section class="dashboard-section">
+
+            <div class="report-grid">
+
+                <!-- Assets by Type -->
+                <div class="report-card">
+
+                    <h2>Assets by Type</h2>
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Asset Type</th>
+                                <th>Count</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="asset-type-table">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <!-- Tickets by Department -->
+                <div class="report-card">
+
+                    <h2>Tickets by Department</h2>
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Department</th>
+                                <th>Tickets</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="department-table">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Footer -->
+        <footer>
+            <p>IT Asset & Ticket Tracker</p>
+        </footer>
+
+    </div>
+
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+</body>
+
+</html>

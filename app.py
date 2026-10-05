@@ -3,6 +3,7 @@ from database.database import initialize_database
 from routes.user_routes import user_routes
 from routes.asset_routes import asset_routes
 from routes.ticket_routes import ticket_routes
+from routes.dashboard_routes import dashboard_routes
 
 app = Flask(__name__)
 
@@ -10,6 +11,7 @@ app = Flask(__name__)
 app.register_blueprint(user_routes)
 app.register_blueprint(asset_routes)
 app.register_blueprint(ticket_routes)
+app.register_blueprint(dashboard_routes)
 
 @app.route("/")
 def home():
